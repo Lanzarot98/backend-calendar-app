@@ -1,0 +1,16 @@
+{
+  "name": "11-calendar-backend",
+  "version": "1.0.0",
+  "description": "Backend of my application Calendar App",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "lanzarot <luis-389@hotmail.com> (https://github.com/Lanzarot98)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
