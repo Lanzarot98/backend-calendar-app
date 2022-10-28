@@ -9,6 +9,9 @@ const app = express();
 //Directorio público
 app.use( express.static('public') );
 
+// lectura y parseo del body
+app.use( express.json() );
+
 // Rutas
 // ToDo auth // crear, login, renew
 app.use('/api/auth', require('./routes/auth'));
