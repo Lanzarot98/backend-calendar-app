@@ -10,13 +10,11 @@ const app = express();
 app.use( express.static('public') );
 
 // Rutas
-// app.get('/', (req, res) => {
-    
-//     res.json({
-//         ok: true
-//     })
+// ToDo auth // crear, login, renew
+app.use('/api/auth', require('./routes/auth'));
 
-// }); 
+
+// todo crud: eventos
 
 // escuchar peticiones
 app.listen(  process.env.PORT, () => {
