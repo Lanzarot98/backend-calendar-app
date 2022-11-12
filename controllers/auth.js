@@ -1,6 +1,6 @@
 const {response} = require('express');
 const bcrypt = require('bcryptjs');
-const Usuario = require('../models/Usuario');
+const User = require('../models/User');
 const { generarJWT } = require('../helpers/jwt');
 
 const createUser = async(req, res = response) => {
@@ -9,29 +9,29 @@ const createUser = async(req, res = response) => {
 
     try {
         
-        let usuario = await Usuario.findOne({ email  });
+        let user = await User.findOne({ email  });
         // console.log(usuario);
-        if ( usuario ) {
+        if ( user ) {
             return res.status(400).json({
                 ok: false,
                 msg: 'An user exist with that email'
             })
         }
 
-        usuario = new Usuario( req.body );
+        user = new User( req.body );
 
         // Encriptar contraseña
         const salt = bcrypt.genSaltSync();
-        usuario.password = bcrypt.hashSync( password, salt );
+        user.password = bcrypt.hashSync( password, salt );
     
-        await usuario.save();
+        await user.save();
         // Generar el json web token 
-        const token = await generarJWT( usuario.id, usuario.name );
+        const token = await generarJWT( user.id, user.name );
     
         res.status( 201 ).json({
             ok: true,
-            uid: usuario.id,
-            name: usuario.name,
+            uid: user.id,
+            name: user.name,
             token 
         })
         
@@ -51,9 +51,9 @@ const loginUser = async (req, res = response) => {
 
     try {
         
-        const usuario = await Usuario.findOne({ email });
-        // console.log(usuario);
-        if ( !usuario ) {
+        const user = await User.findOne({ email });
+        // console.log(user);
+        if ( !user ) {
             return res.status(400).json({
                 ok: false,
                 msg: 'The user does not exist with that email' // no se recomienda decirle cual esta mal, pero para nuestro caso dejaremos así
@@ -61,7 +61,7 @@ const loginUser = async (req, res = response) => {
         }
 
         // Confirmar los passwords
-        const validPassword = bcrypt.compareSync( password, usuario.password );
+        const validPassword = bcrypt.compareSync( password, user.password );
 
         if ( !validPassword ) {
             return res.status(400).json({
@@ -71,12 +71,12 @@ const loginUser = async (req, res = response) => {
         }
 
         // Generar nuestro JSON WEB TOKEN
-        const token = await generarJWT( usuario.id, usuario.name );
+        const token = await generarJWT( user.id, user.name );
 
         res.json({
             ok: true,
-            uid: usuario.id,
-            name: usuario.name,
+            uid: user.id,
+            name: user.name,
             token
         })
 
