@@ -4,21 +4,33 @@ const EventSchema = Schema({
 
     title: {
         type: String,
-        require: true
+        required: true
+    },
+    start: {
+        type: Date,
+        required: true
+    },
+    end: {
+        type: Date,
+        required: true
     },
     notes: {
         type: String,
     },
-    start: {
-        type: Date,
-        require: true
-    },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
-    }
+        ref: 'User',
+        required: true
+    },
 
 });
+
+// aquí no hago modificaciones en la base de datos, solo a la hora de hacer el llamado al toJSON
+EventSchema.method('toJSON', function() {
+    const { __v, _id, ...object } = this.toObject();
+    object.id = _id;
+    return object;
+})
 
 module.exports = model('Event', EventSchema );
 

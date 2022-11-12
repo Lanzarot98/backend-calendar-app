@@ -1,13 +1,8 @@
 
 const { response } = require('express');
-const { generarJWT } = require('../helpers/jwt');
+const Event = require('../models/Event'); 
 
 const getEvents = async ( req, res = response ) => {
-
-    const { uid, name } = req;
-
-    // generar token
-    // const token = await generarJWT(uid, name );
 
     res.status(201).json({
         ok: true,
@@ -18,27 +13,33 @@ const getEvents = async ( req, res = response ) => {
 
 const createEvent = async ( req, res = response ) => {
 
-    // const { uid, name } = req;
-
-    // generar token
-    // const token = await generarJWT(uid, name );
-
     // verificar que tenga el evento.
-    console.log( req.body )
+    // console.log( req.body )
 
-    res.status(201).json({
-        ok: true,
-        msg: 'createEvent'
-    })
+    const event = new Event( req.body ); // instancia de mi modelo para poder trabajar
+
+    try {
+       
+        event.user = req.uid;
+        
+        const savedEvent = await event.save();
+
+        res.json({
+            ok: true,
+            event: savedEvent
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Please ask to the administrator'
+        });
+    }
 
 }
 
 const updateEvent = async ( req, res = response ) => {
-
-    const { uid, name } = req;
-
-    // generar token
-    // const token = await generarJWT(uid, name );
 
     res.status(201).json({
         ok: true,
@@ -48,11 +49,6 @@ const updateEvent = async ( req, res = response ) => {
 }
 
 const deleteEvent = async ( req, res = response ) => {
-
-    const { uid, name } = req;
-
-    // generar token
-    // const token = await generarJWT(uid, name );
 
     res.status(201).json({
         ok: true,
