@@ -22,6 +22,7 @@ app.use( express.json() );
 
 // Rutas
 app.use('/api/auth', require('./routes/auth')); // ToDo auth // crear, login, renew
+app.use('/api/events', require('./routes/events')); // ToDo 
 
 
 // todo crud: eventos
