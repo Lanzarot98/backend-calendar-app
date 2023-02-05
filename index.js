@@ -36,6 +36,6 @@ app.listen(  process.env.PORT, () => {
 //     res.send("This is the backend for the Calendar App by Luis Miguel Rojas")
 // })
 
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
     res.sendFile( __dirname + '/public/index.html' );
 })
