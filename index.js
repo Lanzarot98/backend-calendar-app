@@ -32,6 +32,10 @@ app.listen(  process.env.PORT, () => {
     console.log(`servidor corriendo en puerto ${ process.env.PORT }`);
 })
 
-app.get("/", (req, res) => {
-    res.send("This is the backend for the Calendar App by Luis Miguel Rojas")
+// app.get("/", (req, res) => {
+//     res.send("This is the backend for the Calendar App by Luis Miguel Rojas")
+// })
+
+app.get("*", (req, res) => {
+    res.sendFile( __dirname + '/public/index.html' );
 })
